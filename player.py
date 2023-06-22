@@ -118,9 +118,9 @@ class Player:
 
         # if keyboard.is_pressed("left") and not self.rect.left <= 1 and self.rect.colliderect(platform.rect.x,platform.rect.y+10,platform.rect.width,platform.rect.height) and platform.rect.left <= self.rect.left <= platform.rect.left + 80:
 
-        if keyboard.is_pressed("right") and not self.rect.right >= root_size[0]:
+        if keyboard.is_pressed("right") and not self.rect.right >= root_size[0] or keyboard.is_pressed("d") and not self.rect.right >= root_size[0]:
             dx = self.speed
-        elif keyboard.is_pressed("left") and not self.rect.left <= 1:
+        elif keyboard.is_pressed("left") and not self.rect.left <= 1 or keyboard.is_pressed("a") and not self.rect.left <= 1:
             dx = -self.speed
 
         self.cointouch = False
@@ -148,7 +148,7 @@ class Player:
 
                 if platform.rawImage == "lava.png":
                     self.die(root, enemy_group)
-        if keyboard.is_pressed("up"):
+        if keyboard.is_pressed("up") or keyboard.is_pressed("w"):
             for platform in platform_list:
                 if self.rect.colliderect(platform.rect) and self.rect.bottom <= platform.rect.centery:
                     self.velocity += -self.jump_height
