@@ -153,6 +153,12 @@ class Player:
                 if self.rect.colliderect(platform.rect) and self.rect.bottom <= platform.rect.centery:
                     self.velocity += -self.jump_height
                     break
+        if keyboard.is_pressed("down") or keyboard.is_pressed("s"):
+            for platform in platform_list:
+                if self.rect.colliderect(platform.rect):
+                    return
+
+            self.velocity += self.jump_height
         coinCounter.createText()
         self.rect.x += dx
         self.rect.y += dy
