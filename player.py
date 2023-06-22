@@ -27,7 +27,10 @@ class Player:
         self.rect.y = self.start_pos[1]
         self.deathCount = 0
 
-    def die(self, root):
+    def die(self, root, enemy_group):
+        for enemy in enemy_group:
+            enemy.rect.x = enemy.start_pos[0]
+            enemy.rect.y = enemy.start_pos[1]
         time = 0
         dead = True
         root.fill("red")
@@ -37,13 +40,13 @@ class Player:
         text2 = font.render("DEAD", True, "black")
         # RECT
         textRect = text.get_rect()
-        textRect.center = (400, 200)
+        textRect.center = (600, 300)
         # RECT1
         textRect1 = text1.get_rect()
-        textRect1.center = (400, 400)
+        textRect1.center = (600, 450)
         # RECT2
         textRect2 = text2.get_rect()
-        textRect2.center = (400, 600)
+        textRect2.center = (600, 600)
         # Clock
         fps = pygame.time.Clock()
         Max_Fps = 2
@@ -68,7 +71,7 @@ class Player:
             fps.tick(Max_Fps)
             pygame.display.update()
 
-    def win(self,root):
+    def win(self, root):
         root.fill((51, 106, 92))
         wintext = Textcreator("YOU WIN!", 100, (root.get_width() // 2, root.get_height() // 2 - 200), root, (0, 255, 0))
         wintext.createText()
@@ -89,15 +92,18 @@ class Player:
             level_grids[self.currentLevel - 1][platform.grid_spot[0]][platform.grid_spot[1]] = 0
             self.cointouch = True
             self.coinCount += 1
-        if platform.rawImage == "door.png":
-            if self.currentLevel+1 == len(level_grids)+1: self.win(root)
+        elif platform.rawImage == "door.png":
+            if self.currentLevel + 1 == len(level_grids) + 1: self.win(root)
             self.start_pos = level_grids[self.currentLevel][0][1], level_grids[self.currentLevel][0][2]
             self.rect.x = self.start_pos[0]
             self.rect.y = self.start_pos[1]
-            print(self.currentLevel == len(level_grids))
             self.currentLevel += 1
+        elif platform.rawImage == "eleavtor.png":
+            self.rect.y -= 310
 
-    def move(self, platform_list, root):
+        return
+
+    def move(self, platform_list, enemy_group, root):
         coinCounter = Textcreator("coins: " + str(self.coinCount), 50, (70, 70), root)
         deathCounter = Textcreator("deaths: " + str(self.deathCount), 50, (80, 140), root)
         deathCounter.createText()
@@ -141,11 +147,12 @@ class Player:
                 self.velocity = 0
 
                 if platform.rawImage == "lava.png":
-                    self.die(root)
+                    self.die(root, enemy_group)
         if keyboard.is_pressed("up"):
             for platform in platform_list:
                 if self.rect.colliderect(platform.rect) and self.rect.bottom <= platform.rect.centery:
                     self.velocity += -self.jump_height
+                    break
         coinCounter.createText()
         self.rect.x += dx
         self.rect.y += dy
