@@ -2,6 +2,7 @@ import random
 from text import Textcreator
 import pygame
 import keyboard
+
 from levels import level_grids
 from audio_manager import play_sound_effects
 from audio_manager import play_background_music
@@ -52,6 +53,7 @@ class Player:
         fps = pygame.time.Clock()
         Max_Fps = 2
         change = True
+        play_sound_effects('src/bario_death.mp3')
         while dead:
             if time >= 3:
                 self.start_pos = level_grids[self.currentLevel - 1][0][1], level_grids[self.currentLevel - 1][0][2]
@@ -74,15 +76,15 @@ class Player:
 
     def win(self, root):
         root.fill((51, 106, 92))
-        play_background_music('bario_win.mp3')
+        play_background_music('src/bario_win.mp3')
         wintext = Textcreator("YOU WIN!", 100, (root.get_width() // 2, root.get_height() // 2 - 200), root, (0, 255, 0))
         wintext.createText()
         won = True
-        rect = pygame.image.load("win.png").get_rect()
+        rect = pygame.image.load("src/win.png").get_rect()
         while won:
             rect.centerx = root.get_width() // 2
             rect.centery = root.get_height() // 2
-            root.blit(pygame.image.load("win.png"), rect)
+            root.blit(pygame.image.load("src/win.png"), rect)
             pygame.display.update()
 
     def show(self, root):
@@ -90,17 +92,17 @@ class Player:
 
     def checks(self, platform, root):
 
-        if platform.rawImage == "coin.png" and not self.cointouch:
+        if platform.rawImage == "src/coin.png" and not self.cointouch:
             level_grids[self.currentLevel - 1][platform.grid_spot[0]][platform.grid_spot[1]] = 0
             self.cointouch = True
             self.coinCount += 1
-        elif platform.rawImage == "door.png":
+        elif platform.rawImage == "src/door.png":
             if self.currentLevel + 1 == len(level_grids) + 1: self.win(root)
             self.start_pos = level_grids[self.currentLevel][0][1], level_grids[self.currentLevel][0][2]
             self.rect.x = self.start_pos[0]
             self.rect.y = self.start_pos[1]
             self.currentLevel += 1
-        elif platform.rawImage == "eleavtor.png":
+        elif platform.rawImage == "src/eleavtor.png":
             self.rect.y -= 310
 
         return
@@ -134,7 +136,7 @@ class Player:
             # right
             if self.rect.colliderect(
                     (platform.rect.x + 10, platform.rect.y + 30, platform.rect.width,
-                     platform.rect.height)) and not platform.rawImage == "none.png":
+                     platform.rect.height)):
                 # right hit
 
                 self.checks(platform, root)
@@ -143,7 +145,7 @@ class Player:
             # left
             if self.rect.colliderect(
                     (platform.rect.x, platform.rect.y + 30, platform.rect.width,
-                     platform.rect.height)) and not platform.rawImage == "none.png":
+                     platform.rect.height)):
                 self.checks(platform, root)
                 dx = -1
 
@@ -151,12 +153,12 @@ class Player:
                 self.checks(platform, root)
                 self.velocity = 0
 
-                if platform.rawImage == "lava.png":
+                if platform.rawImage == "src/lava.png":
                     self.die(root, enemy_group)
         if keyboard.is_pressed("up") or keyboard.is_pressed("w"):
             for platform in platform_list:
                 if self.rect.colliderect(platform.rect) and self.rect.bottom <= platform.rect.centery:
-                    play_sound_effects('bario_jump.mp3', 0.01)
+                    play_sound_effects('src/bario_jump.mp3', 0.01)
                     self.velocity += -self.jump_height
                     break
         if keyboard.is_pressed("down") or keyboard.is_pressed("s"):
