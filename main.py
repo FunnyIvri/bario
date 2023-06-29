@@ -14,15 +14,15 @@ width = 1200
 height = 900
 
 root = pygame.display.set_mode((width, height))
-icon = pygame.image.load('src/icon.ico')
+icon = pygame.image.load('icon.ico')
 pygame.display.set_icon(icon)
 run = True
-level = Level(level_grids[0], "src/ground.jpg", "src/lava.png", "src/coin.png", "src/door.png", "src/eleavtor.png")
+level = Level(level_grids[0], "ground.jpg", "lava.png", "coin.png", "door.png", "eleavtor.png")
 previous_level = 1
-enemies = Enemies(level_grids[0], "src/enemy.png")
+enemies = Enemies(level_grids[0], "enemy.png")
 enemy_group = enemies.get_enemies()
-player = Player("src/bario.png", "src/inverted_bario.png", 12, 24, [100, 0], (59, 76), 2.3)
-play_background_music('src/bario.mp3')
+player = Player("bario.png", "inverted_bario.png", 12, 24, [100, 0], (59, 76), 2.3)
+play_background_music('bario.mp3')
 pygame.display.set_caption('BARIO level-0')
 while run:
 
@@ -41,13 +41,13 @@ while run:
 
     if previous_level != player.currentLevel:
         pygame.display.set_caption('BARIO level-' + str(player.currentLevel))
-        enemies = Enemies(level_grids[player.currentLevel - 1], "src/enemy.png")
+        enemies = Enemies(level_grids[player.currentLevel - 1], "enemy.png")
         enemy_group = enemies.get_enemies()
 
     previous_level = player.currentLevel
 
-    level = Level(level_grids[player.currentLevel - 1], "src/ground.jpg", "src/lava.png", "src/coin.png",
-                  "src/door.png", "src/eleavtor.png")
+    level = Level(level_grids[player.currentLevel - 1], "ground.jpg", "lava.png", "coin.png",
+                  "door.png", "eleavtor.png")
 
     clock.tick(fps)
     for event in pygame.event.get():

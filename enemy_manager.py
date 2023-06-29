@@ -5,7 +5,7 @@ class Enemies:
     def __init__(self, grid, enemy_image):
 
         self.image_path = enemy_image
-        self.image = pygame.image.load("src/ground.jpg")
+        self.image = pygame.image.load("ground.jpg")
         self.grid = grid
         self.rect = self.image.get_rect()
 
@@ -52,8 +52,8 @@ class Enemy:
         elif self.rect.x <= 0:
             self.speed = -self.speed
         for platform in platform_list:
-            if platform.rawImage == "src/coin.png": continue
-            elif platform.rawImage == "src/door.png": continue
+            if platform.rawImage == "coin.png": continue
+            elif platform.rawImage == "door.png": continue
 
             if (self.rect.colliderect(
                     (platform.rect.x, platform.rect.y + 30, platform.rect.width,
@@ -62,7 +62,7 @@ class Enemy:
                 dy = -60
                 break
             if self.rect.colliderect(platform):
-                if platform.rawImage == "src/eleavtor.png":
+                if platform.rawImage == "eleavtor.png":
                     self.rect.y -= 135
                     self.speed = -self.speed
                     continue
