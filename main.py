@@ -4,8 +4,8 @@ from levels import level_grids
 from player import Player
 from enemy_manager import Enemies
 from audio_manager import play_background_music
-pygame.init()
 
+pygame.init()
 
 clock = pygame.time.Clock()
 fps = 60
@@ -21,7 +21,7 @@ level = Level(level_grids[0], "src/ground.jpg", "src/lava.png", "src/coin.png", 
 previous_level = 1
 enemies = Enemies(level_grids[0], "src/enemy.png")
 enemy_group = enemies.get_enemies()
-player = Player("src/bario.png","src/inverted_bario.png", 12, 24, [100, 0], (59, 76), 2.3)
+player = Player("src/bario.png", "src/inverted_bario.png", 12, 24, [100, 0], (59, 76), 2.3)
 play_background_music('src/bario.mp3')
 pygame.display.set_caption('BARIO level-0')
 while run:
@@ -46,7 +46,8 @@ while run:
 
     previous_level = player.currentLevel
 
-    level = Level(level_grids[player.currentLevel - 1], "src/ground.jpg", "src/lava.png", "src/coin.png", "src/door.png", "src/eleavtor.png")
+    level = Level(level_grids[player.currentLevel - 1], "src/ground.jpg", "src/lava.png", "src/coin.png",
+                  "src/door.png", "src/eleavtor.png")
 
     clock.tick(fps)
     for event in pygame.event.get():
