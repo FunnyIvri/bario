@@ -3,12 +3,13 @@ from text import Textcreator
 import pygame
 import keyboard
 from levels import level_grids
-
-
+from audio_manager import play_sound_effects
+from audio_manager import play_background_music
 class Player:
-    def __init__(self, image, speed, jump_height, start_pos, size, gravity):
+    def __init__(self, image, inverted_image, speed, jump_height, start_pos, size, gravity):
         self.gravity = gravity
         self.image = image
+        self.invertedImage = inverted_image
         self.coinCount = 0
         self.currentLevel = 1
         self.speed = speed
@@ -73,6 +74,7 @@ class Player:
 
     def win(self, root):
         root.fill((51, 106, 92))
+        play_background_music('bario_win.mp3')
         wintext = Textcreator("YOU WIN!", 100, (root.get_width() // 2, root.get_height() // 2 - 200), root, (0, 255, 0))
         wintext.createText()
         won = True
@@ -120,9 +122,12 @@ class Player:
 
         if keyboard.is_pressed("right") and not self.rect.right >= root_size[0] or keyboard.is_pressed("d") and not self.rect.right >= root_size[0]:
             dx = self.speed
+            self.player = pygame.image.load(self.image)
+            self.player = pygame.transform.scale(self.player, self.size)
         elif keyboard.is_pressed("left") and not self.rect.left <= 1 or keyboard.is_pressed("a") and not self.rect.left <= 1:
             dx = -self.speed
-
+            self.player = pygame.image.load(self.invertedImage)
+            self.player = pygame.transform.scale(self.player, self.size)
         self.cointouch = False
         for platform in platform_list:
 
@@ -151,6 +156,7 @@ class Player:
         if keyboard.is_pressed("up") or keyboard.is_pressed("w"):
             for platform in platform_list:
                 if self.rect.colliderect(platform.rect) and self.rect.bottom <= platform.rect.centery:
+                    play_sound_effects('bario_jump.mp3', 0.01)
                     self.velocity += -self.jump_height
                     break
         if keyboard.is_pressed("down") or keyboard.is_pressed("s"):

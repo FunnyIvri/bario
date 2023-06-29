@@ -3,7 +3,7 @@ from level_manager import Level
 from levels import level_grids
 from player import Player
 from enemy_manager import Enemies
-
+from audio_manager import play_background_music
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -19,8 +19,8 @@ level = Level(level_grids[0], "ground.jpg", "lava.png", "coin.png", "door.png", 
 previous_level = 1
 enemies = Enemies(level_grids[0], "enemy.png")
 enemy_group = enemies.get_enemies()
-player = Player("bario.png", 12, 24, [100, 0], (59, 76), 2.3)
-
+player = Player("bario.png","inverted_bario.png", 12, 24, [100, 0], (59, 76), 2.3)
+play_background_music('bario.mp3')
 while run:
 
     root.fill("black")
